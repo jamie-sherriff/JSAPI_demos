@@ -105,15 +105,21 @@
 
       // define the view
       const view = new SceneView({
-        container: "viewDiv",
-        map: webscene,
-        // this property should be set to true
-        // so that we can set a transparent background
-        alphaCompositingEnabled: true,
-        ui: {
-          components: []
-        }
-      });
+  container: "viewDiv",
+  map: webscene,
+  alphaCompositingEnabled: true,
+  environment: {
+    background: {
+      type: "color",
+      color: [0, 0, 0, 0]
+    },
+    starsEnabled: false,
+    atmosphereEnabled: false
+  },
+  ui: {
+    components: ["attribution"]
+  }
+});
 
       // this part makes sure that the sceneLayer is rendered
       // when we start the animation in the begining
