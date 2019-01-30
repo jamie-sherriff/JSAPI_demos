@@ -31,7 +31,7 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background-image:url('./background.jpg');
+      background-image: url('./background.jpg');
       background-size: cover;
       opacity: 0.7;
     }
@@ -44,7 +44,6 @@
       transform: rotate(-5deg);
       font-size: 1.1em;
     }
-
   </style>
   <link rel="stylesheet" href="https://js.arcgis.com/4.10/esri/css/main.css">
   <script src="https://js.arcgis.com/4.10/"></script>
@@ -55,7 +54,7 @@
       "esri/views/SceneView",
       "esri/layers/SceneLayer",
       "esri/core/watchUtils"
-    ], function(WebScene, SceneView, SceneLayer, watchUtils) {
+    ], function (WebScene, SceneView, SceneLayer, watchUtils) {
 
       // you can tweak these parameters to change
       // the style of the edges
@@ -83,6 +82,21 @@
         }
       };
 
+      const renderer2 = {
+        type: "simple", // autocasts as new SimpleRenderer()
+        symbol: {
+          type: "mesh-3d",
+          symbolLayers: [{
+            type: "fill",
+            material: {
+              color: "red",
+              colorMixMode: "replace"
+            },
+            edges: sketchEdges
+          }]
+        }
+      };
+
       // load the scene layer from ArcGIS Online
       // and set the renderer we defined above
       const sceneLayer = new SceneLayer({
@@ -93,6 +107,16 @@
         popupEnabled: false
       });
 
+
+      //Highlight The home of Orbica
+      const sceneLayer2 = new SceneLayer({
+        portalItem: {
+          id: "9b7a999cf7af4f68a6d18e3b9c4f6ed1"
+        },
+        renderer: renderer2,
+        popupEnabled: false,
+      });
+
       // I've created a webscene in ArcGIS Online
       // the webscene has a transparent background,
       // so that I can display the paper background
@@ -100,39 +124,39 @@
         portalItem: {
           id: "8642090d874044ab92a5f4d3064fef26"
         },
-        layers: [sceneLayer]
+        layers: [sceneLayer, sceneLayer2]
       });
 
       // define the view
       const view = new SceneView({
-  container: "viewDiv",
-  map: webscene,
-  alphaCompositingEnabled: true,
-  environment: {
-    background: {
-      type: "color",
-      color: [0, 0, 0, 0]
-    },
-    starsEnabled: false,
-    atmosphereEnabled: false
-  },
-  ui: {
-    components: ["attribution"]
-  }
-});
+        container: "viewDiv",
+        map: webscene,
+        alphaCompositingEnabled: true,
+        environment: {
+          background: {
+            type: "color",
+            color: [0, 0, 0, 0]
+          },
+          starsEnabled: false,
+          atmosphereEnabled: false
+        },
+        ui: {
+          components: ["attribution"]
+        }
+      });
 
       // this part makes sure that the sceneLayer is rendered
       // when we start the animation in the begining
       view.whenLayerView(sceneLayer)
-        .then(function(layerView) {
-          watchUtils.whenFalseOnce(layerView, "updating", function(value) {
+        .then(function (layerView) {
+          watchUtils.whenFalseOnce(layerView, "updating", function (value) {
             view.goTo(webscene.presentation.slides.getItemAt(0).viewpoint,
-            {
-              // make the animation really slow
-              speedFactor: 0.005,
-              // use the same speed all the time during the animation
-              easing: "linear"
-            });
+              {
+                // make the animation really slow
+                speedFactor: 0.005,
+                // use the same speed all the time during the animation
+                easing: "linear"
+              });
           });
         });
 
