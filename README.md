@@ -2,9 +2,11 @@
 
 # Christchurch sketch
 
+## Please note my ESRI API key has expired and need to revalidate it.
+
 ![screenshot](./christchurch-cbd/images/screenshot.png)
 
-**View the live app**: [Christchurch sketch](./christchurch-cbd/)
+**View the live app**: [Christchurch sketch **EXPIRED**](./christchurch-cbd/)
 
 # Original content from 
 
